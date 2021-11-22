@@ -1,38 +1,42 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function() {
-    return 'Homepage';
-});
+Route::get('/', [HomeController::class, 'index']); // laravel 8
+// Route::get('/', 'HomeController@index'); // laravel < 8
 
-Route::get('about', function() {
-    return 'About Page';
-});
+Route::get('/about', [HomeController::class, 'about']);
 
-Route::get('team', function() {
-    return 'Team Page';
-});
+Route::get('/user/{user?}', [HomeController::class, 'user']);
 
-Route::get('Services', function() {
-    return 'Services Page';
-});
+// Route::get('about', function() {
+//     return 'About Page';
+// })->name('aboutpage');
 
-Route::get('contact', function() {
-    return 'contact Page';
-});
+// Route::get('team', function() {
+//     return 'Team Page';
+// })->name('teampage');
 
-Route::get('user', function() {
-    return 'User Page';
-});
+// Route::get('services', function() {
+//     return 'Services Page';
+// })->name('servicespage');
 
-Route::get('user/profile/main', function() {
-    return 'profile Page';
-});
+// Route::get('contact-me', function() {
+//     return 'contact Page';
+// })->name('contactpage');
 
-Route::get('student/{name?}/{age?}', function($name = '', $age = '') {
-    return 'Welcome ' . $name . ' ' . $age;
-});
+// Route::get('user', function() {
+//     return 'User Page';
+// });
+
+// Route::get('user/profile/main', function() {
+//     return 'profile Page';
+// });
+
+// Route::get('student/{name?}/{age?}', function($name = '', $age = '') {
+//     return 'Welcome ' . $name . ' ' . $age;
+// });
 
 // Routes Type
 // Route::get('route_url', 'Action');
@@ -40,3 +44,41 @@ Route::get('student/{name?}/{age?}', function($name = '', $age = '') {
 // Route::put('route_url', 'Action');
 // Route::patch('route_url', 'Action');
 // Route::delete('route_url', 'Action');
+
+
+// Route::get('about-us', function() {
+//     return view('about');
+// });
+
+
+
+// Route::get('admin/home', function() {});
+// Route::get('admin/posts', function() {});
+// Route::get('admin/posts/create', function() {});
+// Route::get('admin/news', function() {});
+// Route::get('admin/reports', function() {});
+// Route::get('admin/insights', function() {});
+// Route::get('admin/music', function() {});
+// Route::get('admin/movies', function() {});
+// Route::get('admin/categories', function() {});
+// Route::get('admin/roles', function() {});
+// Route::get('admin/crm', function() {});
+// Route::get('admin/users', function() {});
+
+// Route::prefix('admin')->name('admin.')->group(function() {
+//     Route::get('home', function() {})->name('home');
+//     Route::get('posts', function() {})->name('home');
+//     Route::get('posts/create', function() {})->name('home');
+//     Route::get('news', function() {})->name('home');
+//     Route::get('reports', function() {})->name('home');
+//     Route::get('insights', function() {})->name('home');
+//     Route::get('music', function() {})->name('home');
+//     Route::get('movies', function() {})->name('home');
+//     Route::get('categories', function() {})->name('home');
+//     Route::get('roles', function() {})->name('home');
+//     Route::get('crm', function() {})->name('home');
+//     Route::get('users', function() {})->name('home');
+// });
+
+
+
