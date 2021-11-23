@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Site1Controller;
 
 Route::get('/', [HomeController::class, 'index']); // laravel 8
 // Route::get('/', 'HomeController@index'); // laravel < 8
@@ -80,5 +81,10 @@ Route::get('/user/{user?}', [HomeController::class, 'user']);
 //     Route::get('users', function() {})->name('home');
 // });
 
-
-
+Route::prefix('site1')->name('site1.')->group(function() {
+    Route::get('/', [Site1Controller::class, 'index'])->name('index');
+    Route::get('/portfolio', [Site1Controller::class, 'portfolio'])->name('portfolio');
+    Route::get('/about', [Site1Controller::class, 'about'])->name('about');
+    Route::get('/contact', [Site1Controller::class, 'contact'])->name('contact');
+    Route::post('/contact_post', [Site1Controller::class, 'contact_post'])->name('contact_post');
+});
