@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Site1Controller;
@@ -88,3 +89,12 @@ Route::prefix('site1')->name('site1.')->group(function() {
     Route::get('/contact', [Site1Controller::class, 'contact'])->name('contact');
     Route::post('/contact_post', [Site1Controller::class, 'contact_post'])->name('contact_post');
 });
+
+
+Route::get('form1', [FormController::class, 'form1']);
+Route::post('form1', [FormController::class, 'form1_submit'])->name('abed');
+// Route::get('form1-data', [FormController::class, 'form1_data'])->name('form1_data');
+
+
+Route::get('form2', [FormController::class, 'form2'])->name('form2');
+Route::post('form2', [FormController::class, 'form2_submit']);
