@@ -28,6 +28,7 @@
   <body>
 
     <div class="container my-5">
+        @include('forms.errors')
         <form action="{{ route('form2') }}" method="post">
             @csrf
 

@@ -98,3 +98,12 @@ Route::post('form1', [FormController::class, 'form1_submit'])->name('abed');
 
 Route::get('form2', [FormController::class, 'form2'])->name('form2');
 Route::post('form2', [FormController::class, 'form2_submit']);
+
+Route::get('form3', [FormController::class, 'form3'])->name('form3');
+Route::post('form3', [FormController::class, 'form3_submit']);
+
+Route::get('form4', [FormController::class, 'form4'])->name('form4');
+Route::post('form4', [FormController::class, 'form4_submit']);
+
+Route::get('form5', [FormController::class, 'form5'])->name('form5');
+Route::post('form5', [FormController::class, 'form5_submit']);
