@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->double('discount')->default(0);
             $table->timestamp('discount_end_at')->nullable();
-            $table->text('image')->default('no-image.png');
+            $table->string('image')->default('no-image.png');
             $table->double('rating')->default(3.5);
             $table->foreignId('category_id');
             $table->timestamps();

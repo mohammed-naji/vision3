@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Site1Controller;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [HomeController::class, 'index']); // laravel 8
 // Route::get('/', 'HomeController@index'); // laravel < 8
 
-Route::get('/about', [HomeController::class, 'about']);
+// Route::get('/about', [HomeController::class, 'about']);
 
-Route::get('/user/{user?}', [HomeController::class, 'user']);
+// Route::get('/user/{user?}', [HomeController::class, 'user']);
 
 // Route::get('about', function() {
 //     return 'About Page';
@@ -82,28 +83,39 @@ Route::get('/user/{user?}', [HomeController::class, 'user']);
 //     Route::get('users', function() {})->name('home');
 // });
 
-Route::prefix('site1')->name('site1.')->group(function() {
-    Route::get('/', [Site1Controller::class, 'index'])->name('index');
-    Route::get('/portfolio', [Site1Controller::class, 'portfolio'])->name('portfolio');
-    Route::get('/about', [Site1Controller::class, 'about'])->name('about');
-    Route::get('/contact', [Site1Controller::class, 'contact'])->name('contact');
-    Route::post('/contact_post', [Site1Controller::class, 'contact_post'])->name('contact_post');
-});
+// Route::prefix('site1')->name('site1.')->group(function() {
+//     Route::get('/', [Site1Controller::class, 'index'])->name('index');
+//     Route::get('/portfolio', [Site1Controller::class, 'portfolio'])->name('portfolio');
+//     Route::get('/about', [Site1Controller::class, 'about'])->name('about');
+//     Route::get('/contact', [Site1Controller::class, 'contact'])->name('contact');
+//     Route::post('/contact_post', [Site1Controller::class, 'contact_post'])->name('contact_post');
+// });
 
 
-Route::get('form1', [FormController::class, 'form1']);
-Route::post('form1', [FormController::class, 'form1_submit'])->name('abed');
+// Route::get('form1', [FormController::class, 'form1']);
+// Route::post('form1', [FormController::class, 'form1_submit'])->name('abed');
 // Route::get('form1-data', [FormController::class, 'form1_data'])->name('form1_data');
 
 
-Route::get('form2', [FormController::class, 'form2'])->name('form2');
-Route::post('form2', [FormController::class, 'form2_submit']);
+// Route::get('form2', [FormController::class, 'form2'])->name('form2');
+// Route::post('form2', [FormController::class, 'form2_submit']);
 
-Route::get('form3', [FormController::class, 'form3'])->name('form3');
-Route::post('form3', [FormController::class, 'form3_submit']);
+// Route::get('form3', [FormController::class, 'form3'])->name('form3');
+// Route::post('form3', [FormController::class, 'form3_submit']);
 
-Route::get('form4', [FormController::class, 'form4'])->name('form4');
-Route::post('form4', [FormController::class, 'form4_submit']);
+// Route::get('form4', [FormController::class, 'form4'])->name('form4');
+// Route::post('form4', [FormController::class, 'form4_submit']);
 
-Route::get('form5', [FormController::class, 'form5'])->name('form5');
-Route::post('form5', [FormController::class, 'form5_submit']);
+// Route::get('form5', [FormController::class, 'form5'])->name('form5');
+// Route::post('form5', [FormController::class, 'form5_submit']);
+
+
+// Route::get('products', function(){}); // get all data
+// Route::get('products/create', function() {}); // show form to create new record
+// Route::post('products', function() {}); // add new record to database
+// Route::get('products/{id}/edit', function() {}); // show form to edit specific record from database
+// Route::put('products/{id}', function() {}); // update record from database
+// Route::delete('products/{id}', function() {}); // delete record from database
+// Route::get('products/{id}', function() {}); // show details record from database
+
+Route::resource('products', ProductController::class);
