@@ -19,17 +19,18 @@
     <div class="container my-5">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Add New Product</h1>
+            <h1>Update Product : <span class="text-danger">{{ $product->name }}</span></h1>
             <a href="{{ route('products.index') }}" class="btn btn-outline-dark">Return Back</a>
         </div>
 
-        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('put')
 
             @include('products.form')
 
 
-            <button class="btn btn-dark btn-lg px-5">Save</button>
+            <button class="btn btn-dark btn-lg px-5">Update</button>
 
         </form>
     </div>

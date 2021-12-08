@@ -13,6 +13,13 @@
 
     <div class="container my-5">
 
+        @if (session('msg'))
+        <div class="alert alert-{{session('type')}} alert-dismissible fade show" role="alert">
+            {{ session('msg') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>All Products</h1>
             <a href="{{ route('products.create') }}" class="btn btn-outline-dark">Add new Product</a>
@@ -31,36 +38,36 @@
                 <th>Actions</th>
             </tr>
 
-            <tr>
-                <td>1</td>
-                <td>dd</td>
-                <td>Toy</td>
-                <td>100$</td>
-                <td>0</td>
-                <td></td>
-                <td>4</td>
-                <td>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-pencil"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->id }}</td>
+                    <td><img width="100" src="{{ asset('uploads/products/'.$product->image) }}" alt=""></td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->price }}$</td>
+                    <td>{{ $product->discount }}</td>
+                    <td>{{ $product->discount_end_at }}</td>
+                    <td>{{ $product->rating }}</td>
+                    <td>
+                        <a href="{{route('products.edit', $product->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-pencil"></i></a>
+                        {{-- <a href="{{route('products.destroy', $product->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> --}}
 
-            <tr>
-                <td>1</td>
-                <td>dd</td>
-                <td>Toy</td>
-                <td>100$</td>
-                <td>0</td>
-                <td></td>
-                <td>4</td>
-                <td>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-pencil"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
+                        <form class="d-inline" action="{{route('products.destroy', $product->id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button onclick="return confirm('هل انت متاكد اخوي؟')" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                        </form>
+
+                    </td>
+                </tr>
+            @endforeach
+
         </table>
 
+        {{ $products->links() }}
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>
 </html>

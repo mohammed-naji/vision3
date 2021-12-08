@@ -14,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        $products = Product::orderBy('price', 'DESC')->simplePaginate(2);
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -24,7 +25,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('products.create')->with('product', new Product());
     }
 
     /**
@@ -72,6 +73,10 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
         ]);
 
+        return redirect()->route('products.index')
+                ->with('msg', 'تمت اضافة المنتج بسلام')
+                ->with('type', 'success');
+
     }
 
     /**
@@ -82,7 +87,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return 'ffff';
     }
 
     /**
@@ -93,7 +98,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        // dd($product);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -105,7 +112,52 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:5',
+            'price' => 'required|numeric',
+            'description' => 'required|max:500',
+            'image' => 'image|mimes:png,jpg,jpeg',
+            'category_id' => 'required',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $new_name = $product->image;
+        $album_names = $product->album;
+
+        if($request->hasFile('image')) {
+            // upload the files
+            $ex = $request->file('image')->getClientOriginalExtension();
+            $new_name = 'product_'.time().'_'.rand().'.'.$ex;
+            $request->file('image')->move(public_path('uploads/products/'), $new_name);
+        }
+
+
+        if($request->hasFile('album')) {
+            $album_names = [];
+            foreach($request->file('album') as $item) {
+                $ex = $item->getClientOriginalExtension();
+                $album_name = 'product_'.time().'_'.rand(0000000000000,9999999999999).'_'.rand(0000000000000,9999999999999).'.'.$ex;
+                $album_names[] = $album_name;
+                $item->move(public_path('uploads/products/'), $album_name);
+            }
+            $album_names = implode('|', $album_names);
+        }
+
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'discount' => $request->discount,
+            'discount_end_at' => $request->discount_end_at,
+            'image' => $new_name,
+            'album' => $album_names,
+            'rating' => $request->rating,
+            'category_id' => $request->category_id,
+        ]);
+
+        return redirect()->route('products.index')
+                ->with('msg', 'تمت تعديل المنتج بسلام')
+                ->with('type', 'info');
     }
 
     /**
@@ -116,6 +168,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Product::destroy($id);
+        Product::findOrFail($id)->delete();
+        return redirect()->route('products.index')
+                ->with('msg', 'تمت حذف المنتج بسلام')
+                ->with('type', 'danger');
     }
 }
