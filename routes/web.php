@@ -119,3 +119,5 @@ Route::get('/', [HomeController::class, 'index']); // laravel 8
 // Route::get('products/{id}', function() {}); // show details record from database
 
 Route::resource('products', ProductController::class);
+Route::delete('delete-all-products', [ProductController::class, 'delete_all'])->name('products.delete_all');
+Route::delete('delete-selected-products', [ProductController::class, 'delete_selected'])->name('products.delete_selected');

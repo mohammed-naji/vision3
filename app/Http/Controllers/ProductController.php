@@ -14,7 +14,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('price', 'DESC')->simplePaginate(2);
+
+        if(request()->has('search')) {
+            $products = Product::where('name', 'like',  '%'.request()->search.'%')
+            ->orWhere('price', 'like',  '%'.request()->search.'%')
+            ->orderBy('price', 'DESC')
+            ->paginate(5);
+        }else {
+            $products = Product::orderBy('price', 'DESC')->paginate(5);
+        }
+
+
+
         return view('products.index', compact('products'));
     }
 
@@ -168,10 +179,29 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        return $id;
         // Product::destroy($id);
         Product::findOrFail($id)->delete();
         return redirect()->route('products.index')
                 ->with('msg', 'تمت حذف المنتج بسلام')
                 ->with('type', 'danger');
+    }
+
+    public function delete_all()
+    {
+        Product::truncate();
+        return redirect()->route('products.index')
+                ->with('msg', 'تم حذف جميع المنتجات')
+                ->with('type', 'info');
+    }
+
+    public function delete_selected()
+    {
+        $ids = explode(',', request()->selected_ids);
+        Product::whereIn('id', $ids)->delete();
+
+        return redirect()->route('products.index')
+                ->with('msg', 'تم حذف المنتجات المختارة')
+                ->with('type', 'info');
     }
 }

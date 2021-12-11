@@ -25,10 +25,18 @@
             <a href="{{ route('products.create') }}" class="btn btn-outline-dark">Add new Product</a>
         </div>
 
+        <form action="{{ route('products.index') }}" method="GET">
+            <div class="input-group mb-3">
+                <input type="text" value="{{ request()->search }}" name="search" class="form-control" placeholder="Search By Name or Price">
+                <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
+              </div>
+        </form>
+
 
         <table class="table table-bordered table-striped table-hover">
             <tr class="table-dark">
-                <th>ID</th>
+                <th><input type="checkbox" id="select_all"></th>
+                {{-- <th>ID</th> --}}
                 <th>Image</th>
                 <th>Name</th>
                 <th>Price</th>
@@ -40,7 +48,7 @@
 
             @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    <td><input type="checkbox" name="ids[]" class="ids" value="{{$product->id}}"></td>
                     <td><img width="100" src="{{ asset('uploads/products/'.$product->image) }}" alt=""></td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}$</td>
@@ -65,9 +73,49 @@
 
         {{ $products->links() }}
 
+        <form class="d-inline" method="POST" action="{{ route('products.delete_all') }}">
+            @csrf
+            @method('delete')
+            <button class="btn btn-danger" onclick="return confirm('Are you sure?!')">Delete All</button>
+        </form>
+
+        <button id="delete_selected_btn" class="btn btn-danger" onclick="return confirm('Are you sure?!')">Delete Selected</button>
+
+        <form class="d-none" method="POST" id="delete_selected_form" action="{{ route('products.delete_selected') }}">
+            @csrf
+            @method('delete')
+            <input type="hidden" name="selected_ids" />
+        </form>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <script>
+        // $('#select_all').change(function() {
+        //     if( $(this).is(':checked') ) {
+        //         $('.ids').prop('checked', true);
+        //     }else {
+        //         $('.ids').prop('checked', false);
+        //     }
+        // })
+
+        $("#select_all").click(function(){
+            $(".ids").prop('checked', $(this).prop('checked'));
+        });
+
+        $('#delete_selected_btn').click(function(e) {
+            var ids = [];
+            $('.ids').each(function(key, item) {
+                if($(item).is(':checked')) {
+                    ids.push($(item).val());
+                }
+            });
+            $('input[name=selected_ids]').val(ids)
+            $('#delete_selected_form').submit();
+        })
+
+    </script>
 </body>
 </html>
