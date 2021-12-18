@@ -5,6 +5,8 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Site1Controller;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RelationController;
+use Illuminate\Database\Eloquent\Factories\Relationship;
 
 Route::get('/', [HomeController::class, 'index']); // laravel 8
 // Route::get('/', 'HomeController@index'); // laravel < 8
@@ -121,3 +123,21 @@ Route::get('/', [HomeController::class, 'index']); // laravel 8
 Route::resource('products', ProductController::class);
 Route::delete('delete-all-products', [ProductController::class, 'delete_all'])->name('products.delete_all');
 Route::delete('delete-selected-products', [ProductController::class, 'delete_selected'])->name('products.delete_selected');
+
+
+
+
+Route::get('posts', [RelationController::class, 'posts']);
+
+
+
+Route::get('one-to-one', [RelationController::class, 'one_to_one']);
+Route::get('one-to-many', [RelationController::class, 'one_to_many']);
+Route::get('many-to-many', [RelationController::class, 'many_to_many']);
+// Route::get('many-to-many')
+
+// CapitalizeCase
+// camelCase
+// snake_case
+// UPPERCASE
+// kebab-case
